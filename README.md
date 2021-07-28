@@ -1,1 +1,1 @@
-<<<Add basic infoo>>>
+add basic info
