@@ -1,26 +1,31 @@
-from django.shortcuts import render
-from django.http import HttpResponse
-from .models import *
-from .forms import *
-from django.contrib.auth import login as auth_login, logout
-from django.contrib.auth.decorators import login_required
-from django.contrib.auth.models import auth
-from django.contrib import messages
-from django.core.mail import send_mail
+from django.shortcuts import render,redirect
+from django.contrib.auth.forms import UserCreationForm,AuthenticationForm
+from django.contrib.auth import login
 import random
 # Create your views here.
-def login(request):
-    if request.session.has_key('uid'):
-        context = {'username': request.session['uid']}
-        return render(request, 'misapp/services.html', context)
-    if request.method == 'POST':
-        curr_user = misapp.objects.all().filter(
-            pk=request.POST["username"], password=request.POST["password"])
-        if curr_user.count() == 1:
-            request.session['uid'] = request.POST["username"]
-            context = {'username': request.session['uid']}
-            return render(request, 'misapp/services.html', context)
-        else:
-            messages.info(request, "Invalid Username/Password")
-    context = {}
-    return render(request, 'misapp/login.html', context)
+def signup_ap(request):
+    if request.method =='POST' :
+        form=UserCreationForm(request.POST)
+        if(form.is_valid()):
+            #creating user
+            user=form.save()
+            login(request,user)
+            #login
+            return redirect('misapp:home')
+    else:
+        form=UserCreationForm()
+    return render(request, 'misapp/signup.html',{'form':form})
+def login_ap(request):
+    if request.method=='POST':
+        #check validation and log in
+        form=AuthenticationForm(data=request.POST)
+        if form.is_valid():
+            #log the user in
+            user=form.get_user()
+            login(request,user)
+            return redirect('misapp:home')
+    else:
+        #GET req-click on login
+        form=AuthenticationForm()
+    #throw error
+    return render(request,'misapp/login.html',{'form':form})
