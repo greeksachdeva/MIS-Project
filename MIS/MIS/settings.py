@@ -25,7 +25,7 @@ SECRET_KEY = 'django-insecure-4m0-#t)d7-qkxns)oup^)nj+a95*=361#e*-)w1p$=n8&zo665
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['localhost']
 
 
 # Application definition
@@ -43,7 +43,8 @@ INSTALLED_APPS = [
     'allauth.account',
     'allauth.socialaccount',
     'allauth.socialaccount.providers.google',
-    'accounts'
+
+    'crispy_forms'
 ]
 
 MIDDLEWARE = [
@@ -61,7 +62,7 @@ ROOT_URLCONF = 'MIS.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [BASE_DIR/ 'templates'],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -137,3 +138,22 @@ AUTHENTICATION_BACKENDS = [
     'allauth.account.auth_backends.AuthenticationBackend',
 
 ]
+SITE_ID=1
+
+#411933538367-e33anfsq1m9uajd6l7makdkbmulvhohr.apps.googleusercontent.com
+#XZSt1zwea_joaEvgM-HlDa8d
+
+SOCIALACCOUNT_PROVIDERS = {
+    'google': {
+        'SCOPE': [
+            'profile',
+            'email',
+        ],
+        'AUTH_PARAMS': {
+            'access_type': 'online',
+        }
+    }
+}
+LOGIN_REDIRECT_URL='home'
+ACCOUNT_LOGOUT_REDIRECT_URL='account_login'
+CRISPY_TEMPLATE_PACK='bootstrap4'
