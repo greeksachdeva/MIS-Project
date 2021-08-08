@@ -1,4 +1,5 @@
 from django.contrib.auth.models import User
+from dashboard.models import rolesall
 from django.shortcuts import render
 from allauth.socialaccount.models import SocialAccount, SocialApp
 
@@ -19,10 +20,12 @@ def check_email(request):
 
         # Check to see if any users already exist with this email as a username.
         try:
-            match = User.objects.get(email=email)
+            match = rolesall.objects.get(email=email)
+            print(match)
             return HttpResponse("welcome")
+            
             """ redirect"""
-        except User.DoesNotExist:
+        except rolesall.DoesNotExist:
             # Unable to find a user, this is fine
             return HttpResponse("not in database")
             # return create_response(code=constants.FORBIDDEN,
