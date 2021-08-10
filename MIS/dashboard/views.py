@@ -4,7 +4,6 @@ from django.shortcuts import render
 from allauth.socialaccount.models import SocialAccount, SocialApp
 # Create your views here.
 from django.http import HttpResponse
-from rest_framework.decorators import api_view
 
 
 """role checker"""
