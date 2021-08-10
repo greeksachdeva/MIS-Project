@@ -5,7 +5,6 @@ from allauth.socialaccount.models import SocialAccount, SocialApp
 
 # Create your views here.
 from django.http import HttpResponse
-from rest_framework.decorators import api_view
 
 
 def check_email(request):
@@ -22,7 +21,14 @@ def check_email(request):
         try:
             match = rolesall.objects.get(email=email)
             print(match)
-            return HttpResponse("welcome")
+            roles = match.roles
+            if roles==0:
+                return HttpResponse("welcome Student")
+            elif roles==1:
+                return HttpResponse("welcome teacher")    
+
+            #print(dir(match))
+            
             
             """ redirect"""
         except rolesall.DoesNotExist:
